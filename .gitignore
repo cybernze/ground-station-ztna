@@ -1,0 +1,17 @@
+# Certificados generados localmente — nunca al repositorio
+certs/*.key
+certs/*.csr
+certs/*.srl
+certs/*.crt
+
+# Terraform — estado e internos
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+terraform/terraform.tfvars
+
+# Python
+__pycache__/
+*.pyc
+.env
