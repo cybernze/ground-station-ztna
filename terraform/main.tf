@@ -3,7 +3,7 @@
 # Analogía: tu parcela privada en la ciudad AWS
 # ─────────────────────────────────────────
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"   # 65,536 IPs privadas disponibles
+  cidr_block           = "10.0.0.0/16" # 65,536 IPs privadas disponibles
   enable_dns_hostnames = true
   enable_dns_support   = true
 
@@ -32,9 +32,9 @@ resource "aws_internet_gateway" "main" {
 # ─────────────────────────────────────────
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"   # 256 IPs en esta subred
+  cidr_block              = "10.0.1.0/24" # 256 IPs en esta subred
   availability_zone       = "${var.aws_region}a"
-  map_public_ip_on_launch = true             # EC2 recibe IP pública automáticamente
+  map_public_ip_on_launch = true # EC2 recibe IP pública automáticamente
 
   tags = {
     Name    = "${var.project_name}-subnet-public"
@@ -50,8 +50,8 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"                    # Todo tráfico externo...
-    gateway_id = aws_internet_gateway.main.id    # ...sale por el Internet Gateway
+    cidr_block = "0.0.0.0/0"                  # Todo tráfico externo...
+    gateway_id = aws_internet_gateway.main.id # ...sale por el Internet Gateway
   }
 
   tags = {
@@ -114,7 +114,7 @@ resource "aws_security_group" "ground_station" {
 # ─────────────────────────────────────────
 resource "aws_key_pair" "operator" {
   key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/id_rsa.pub")   # Usa tu clave pública existente
+  public_key = file("~/.ssh/id_rsa.pub") # Usa tu clave pública existente
 }
 
 # ─────────────────────────────────────────

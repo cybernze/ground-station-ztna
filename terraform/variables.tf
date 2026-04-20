@@ -25,5 +25,5 @@ variable "ami_id" {
   description = "Amazon Linux 2023 AMI ID for eu-south-2"
   type        = string
   # Amazon Linux 2023 en eu-south-2 (verificar en console si cambia)
-  default     = "ami-0c97e386812b2fea0"
+  default = "ami-0c97e386812b2fea0"
 }
