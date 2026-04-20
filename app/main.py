@@ -13,8 +13,6 @@ app = FastAPI(
 )
 
 
-# ─── Modelos de datos ───────────────────────────────────────────────────────
-
 class TelemetryData(BaseModel):
     satellite_id: str
     timestamp: str
@@ -25,24 +23,17 @@ class TelemetryData(BaseModel):
 
 class Command(BaseModel):
     satellite_id: str
-    command_type: str   # e.g. "REBOOT", "ADJUST_ORBIT", "DEPLOY_ANTENNA"
+    command_type: str
     parameters: dict = {}
 
 
-# ─── Endpoints ──────────────────────────────────────────────────────────────
-
 @app.get("/health")
 def health_check():
-    """Endpoint de salud — verifica que la API responde."""
     return {"status": "operational", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 @app.post("/telemetry")
 def receive_telemetry(data: TelemetryData, request: Request):
-    """
-    Recibe datos de telemetría del satélite.
-    En producción real: validaría firma criptográfica del payload.
-    """
     logger.info(f"[TELEMETRY] Received from satellite {data.satellite_id} | "
                 f"Alt: {data.altitude_km}km | Battery: {data.battery_pct}%")
 
@@ -59,10 +50,6 @@ def receive_telemetry(data: TelemetryData, request: Request):
 
 @app.post("/command")
 def send_command(cmd: Command, request: Request):
-    """
-    Envía un telecomando al satélite.
-    En producción real: requeriría autorización de dos operadores (two-man rule).
-    """
     ALLOWED_COMMANDS = {"REBOOT", "ADJUST_ORBIT", "DEPLOY_ANTENNA", "SAFE_MODE"}
 
     if cmd.command_type not in ALLOWED_COMMANDS:

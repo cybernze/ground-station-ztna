@@ -5,7 +5,7 @@ variable "aws_region" {
 }
 
 variable "my_ip" {
-  description = "Your public IP in CIDR format (e.g. 1.2.3.4/32)"
+  description = "Operator public IP in CIDR format (e.g. 1.2.3.4/32)"
   type        = string
 }
 
@@ -16,7 +16,7 @@ variable "project_name" {
 }
 
 variable "ec2_instance_type" {
-  description = "EC2 instance type (Free Tier: t3.micro in eu-south-2)"
+  description = "EC2 instance type"
   type        = string
   default     = "t3.micro"
 }
@@ -24,8 +24,7 @@ variable "ec2_instance_type" {
 variable "ami_id" {
   description = "Amazon Linux 2023 AMI ID for eu-south-2"
   type        = string
-  # Amazon Linux 2023 en eu-south-2 (verificar en console si cambia)
-  default = "ami-0c97e386812b2fea0"
+  default     = "ami-0c97e386812b2fea0"
 }
 
 variable "operator_public_key" {
