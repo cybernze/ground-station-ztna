@@ -27,3 +27,9 @@ variable "ami_id" {
   # Amazon Linux 2023 en eu-south-2 (verificar en console si cambia)
   default = "ami-0c97e386812b2fea0"
 }
+
+variable "operator_public_key" {
+  description = "SSH public key content for EC2 operator access. Set via TF_VAR_operator_public_key or terraform.tfvars."
+  type        = string
+  default     = ""
+}

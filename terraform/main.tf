@@ -114,7 +114,7 @@ resource "aws_security_group" "ground_station" {
 # ─────────────────────────────────────────
 resource "aws_key_pair" "operator" {
   key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/id_rsa.pub") # Usa tu clave pública existente
+  public_key = var.operator_public_key
 }
 
 # ─────────────────────────────────────────
