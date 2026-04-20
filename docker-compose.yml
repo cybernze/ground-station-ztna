@@ -1,0 +1,37 @@
+services:
+
+  # ── API Python ──────────────────────────────────────────────────────────────
+  gs-api:
+    build: ./app
+    container_name: gs-api
+    restart: unless-stopped
+    # Puerto 8000 NO expuesto al host — solo accesible dentro de la red Docker
+    # Nginx es el único que habla con él
+    expose:
+      - "8000"
+    networks:
+      - internal
+
+  # ── Nginx mTLS Proxy ────────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: gs-nginx
+    restart: unless-stopped
+    ports:
+      - "8443:8443"    # Único puerto expuesto al exterior
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs/server.crt:/etc/nginx/certs/server.crt:ro
+      - ./certs/server.key:/etc/nginx/certs/server.key:ro
+      - ./certs/ca.crt:/etc/nginx/certs/ca.crt:ro
+    depends_on:
+      - gs-api
+    networks:
+      - internal
+
+# ── Red interna Docker ──────────────────────────────────────────────────────
+# gs-api y nginx se ven entre sí por nombre de servicio
+# Ninguno de los dos expone puertos al exterior excepto 8443 en nginx
+networks:
+  internal:
+    driver: bridge
